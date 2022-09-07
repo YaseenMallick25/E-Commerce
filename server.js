@@ -5,25 +5,35 @@ const app = express();
 
 app.use(express.json());
 
-// routes
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
 // set port, listen for requests
 
+// var corsOptions = {
+//   origin: "http://localhost:8081"
+// };
+
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "*"
 };
 
 app.use(cors(corsOptions));
 
+// routes
+require('./app/routes/auth.routes')(app);
+require('./app/routes/user.routes')(app);
+require('./app/routes/product.routes')(app);
+
 const db = require("./app/models");
+
 //db.sequelize.sync();
 const Role = db.role;
-// db.sequelize.sync({force: true}).then(() => {
+const Product = db.product;
+
+//  db.sequelize.sync({force: true}).then(() => {
 //   console.log('Drop and Resync Db');
 //   initial();
-// });
+//  });
 
+//initial();
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -58,4 +68,16 @@ app.listen(PORT, () => {
 //       id: 3,
 //       name: "admin"
 //     });
+// }
+
+// function initial() {
+//   Product.create({
+//     name: "T-shirt",
+//     description: "T-shirt",
+//     category: "T-shirt",
+//     price: 10,
+//     image: "T-shirt",
+//     color: "T-shirt",
+//     size: "T-shirt"
+//   });
 // }

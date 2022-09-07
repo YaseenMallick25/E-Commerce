@@ -1,3 +1,7 @@
+//make it all use json object
+
+//make it all use json object
+
 exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
   };
