@@ -1,45 +1,54 @@
-//product route
-
+//product routes
 const { authJwt } = require("../middleware");
-const controller = require("../controllers/product.controller");
+const { Router } = require('express');
+const productController = require("../controllers/product.controller");
 
-module.exports = function(app) {
-    
-    app.use(function(req, res, next) {
-        res.header(
-            "Access-Control-Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept"
-        );
-        next();
-    });
-    
-    //create product
-    app.post(
-        "/api/product/create", 
-        [authJwt.verifyToken, authJwt.isAdmin],
-        controller.createProduct
-    );
-    
-    // //get all products
-    // app.get(
-    //     "/api/product/all", 
-    //     controller.getAllProducts);
-    
-    // //get product by id
-    // app.get(
-    //     "/api/product/:id", 
-    //     controller.getProductById);
-    
-    // //update product by id
-    // app.put(
-    //     "/api/product/update/:id", 
-    //     [authJwt.verifyToken, authJwt.isAdmin], 
-    //     controller.updateProduct);
-    
-    // //delete product by id
-    // app.delete(
-    //     "/api/product/delete/:id", 
-    //     [authJwt.verifyToken, authJwt.isAdmin], 
-    //     controller.deleteProduct);
-        
-};
+const router = Router();
+
+//create product
+router.post(
+    "/create", 
+    [authJwt.verifyToken, authJwt.isAdmin],
+    productController.createProduct
+);
+
+//get all products
+router.get(
+    "/all",
+    productController.getAllProducts
+);
+
+//get product by category
+router.get(
+    "/category/:category",
+    productController.getAllProductsByCategory
+);
+
+//get product by id
+router.get(
+    "/:id",
+    productController.getProductById
+);
+
+//update product by id
+router.put(
+    "/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    productController.updateProductById
+);
+
+//delete product by id
+router.delete(
+    "/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    productController.deleteProductById
+);
+
+//delete all products
+router.delete(
+    "/all",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    productController.deleteAllProducts
+);
+
+module.exports = router;
