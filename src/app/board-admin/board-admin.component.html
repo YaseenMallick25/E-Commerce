@@ -1,0 +1,31 @@
+<!-- make admin form to add products to the database
+<form (ngSubmit)="onSubmit()" #productForm="ngForm">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="product.name" #name="ngModel" required>
+    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+      Name is required
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="price">Price</label>
+    <input type="number" class="form-control" id="price" name="price" [(ngModel)]="product.price" #price="ngModel" required>
+    <div [hidden]="price.valid || price.pristine" class="alert alert-danger">
+      Price is required
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" class="form-control" id="description" name="description" [(ngModel)]="product.description" #description="ngModel" required>
+    <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
+      Description is required
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="image">Image</label>
+    <input type="text" class="form-control" id="image" name="image" [(ngModel)]="product.image" #image="ngModel" required>
+    <div [hidden]="image.valid || image.pristine" class="alert alert-danger">
+      Image is required
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!productForm.form.valid">Submit</button> -->

@@ -1,0 +1,22 @@
+<div *ngFor="let con of content" >
+
+    <div class="card" style = "width : 18rem" >
+
+        <div style="text-align: center;">
+
+            <img src = {{con.image}} class="center" alt="T-Shirt Image" width= 30%/>
+        
+        </div>
+        
+        <div class="card-body">
+
+          <h1 class="card-title">{{con.name}}</h1>
+          <p class="card-text">{{con.description}}</p>
+          <p class="card-text"> <b> Rs. {{con.price}} </b></p>
+          <a href="/" class="btn btn-primary">Add to Cart</a>
+
+        </div>
+
+      </div>
+
+</div>
