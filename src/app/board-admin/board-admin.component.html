@@ -1,4 +1,4 @@
-<!-- make admin form to add products to the database
+
 <form (ngSubmit)="onSubmit()" #productForm="ngForm">
   <div class="form-group">
     <label for="name">Name</label>
@@ -14,6 +14,7 @@
       Price is required
     </div>
   </div>
+
   <div class="form-group">
     <label for="description">Description</label>
     <input type="text" class="form-control" id="description" name="description" [(ngModel)]="product.description" #description="ngModel" required>
@@ -21,6 +22,34 @@
       Description is required
     </div>
   </div>
+
+  <mat-form-field appearance = "fill">
+    <mat-label>Category</mat-label>
+    <mat-select [(value)] = "product.category" name = "category" (selectionChange) = "changeCategory($event.value)">
+      <mat-option *ngFor="let category of categories" [value]="category.name">
+        {{category.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance = "fill">
+    <mat-label>Color</mat-label>
+    <mat-select [(value)] = "product.color" name = "color" (selectionChange)="changeColor($event.value)">
+      <mat-option *ngFor="let color of colors" [value]="color.name">
+        {{color.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance = "fill">
+    <mat-label>Size</mat-label>
+    <mat-select [(value)] = "product.size" name = "size" (selectionChange)="changeSize($event.value)">
+      <mat-option *ngFor="let size of sizes" [value]="size.name">
+        {{size.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div class="form-group">
     <label for="image">Image</label>
     <input type="text" class="form-control" id="image" name="image" [(ngModel)]="product.image" #image="ngModel" required>
@@ -28,4 +57,36 @@
       Image is required
     </div>
   </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!productForm.form.valid">Submit</button> -->
+  <!-- <button type="submit" class="btn btn-primary" [disabled]="!productForm.form.valid">Submit</button> -->
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let content of contents" >
+      <mat-card class="mat-elevation-z4">
+        <img mat-card-image src = {{content.image}} alt = {{content.title}} >
+        <mat-card-header>
+          <mat-card-title>{{content.name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>
+            {{content.description}}
+          </h3>
+        </mat-card-content>
+          <mat-card-actions fxLayout="row" fxLayoutAlign="center" >
+            <mat-label> 
+              <h3> 
+                <b>
+                  Rs.{{content.price}} 
+                </b>
+              </h3>
+            </mat-label>
+
+            <button mat-raised-button color="primary" >Edit</button>
+
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
