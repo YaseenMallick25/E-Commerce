@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../_services/product.service';
 import { UserCartService } from '../_services/userCart.service';
-import { MatRadioChange } from '@angular/material/radio';
 
 interface Product {
   id: number,
@@ -28,7 +27,7 @@ interface Quantity {
 })
 export class BoardUserComponent implements OnInit {
   contents: any = [];
-  products: Product[] = [];
+  //products: Product[] = [];
   
   selectedCategory: string | undefined;
   categories: string[] = [ 
@@ -56,6 +55,7 @@ export class BoardUserComponent implements OnInit {
     {id: 4, quantity: 4},
     {id: 5, quantity: 5}
   ];
+  
   changeQuantity(value : any) {
     this.selectedQuantity = value;
     console.log(value);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../_services/product.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface Product {
   id: number,
@@ -34,6 +34,7 @@ interface Size {
   styleUrls: ['./board-admin.component.css']
 })
 export class BoardAdminComponent implements OnInit {
+  faCircle = faCircle;
   contents?: any = [];
   product: Product = {} as Product;
 
@@ -92,6 +93,7 @@ export class BoardAdminComponent implements OnInit {
     this.size = value;
     //console.log(value);
   }
+  
 
   constructor(private productService: ProductService) { }
 
@@ -99,6 +101,14 @@ export class BoardAdminComponent implements OnInit {
     this.productService.getAllProductContent().subscribe((data) => {
       this.contents = data;
      });
+  }
+
+  editProduct(id: number): void {
+    this.productService.getProductContent(id).subscribe((data) => {
+      console.log(data);
+      //this.product = data;
+      //console.log(this.product);
+    });
   }
 
   onSubmit(): void {

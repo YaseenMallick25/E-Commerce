@@ -50,13 +50,9 @@ export class LoginComponent implements OnInit {
 
     });
 
-    // if (this.roles.includes('ROLE_ADMIN')) {
-    //   this.router.navigate(['/board-admin']);
-    // } else {
-    //   this.router.navigate(['/board-user']);
-    // }
+    console.log(this.roles);
 
-    this.router.navigate(['/']);
+    this.router.navigateByUrl('/user');
 
   }
 
