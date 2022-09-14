@@ -63,26 +63,27 @@ exports.getAllProducts = (req, res) => {
 }
 
 // get all products by category
-exports.getAllProductsByCategory = (req, res) => {
+exports.getAllProductsByCategory = async (req, res) => {
     const category = req.query.category;
     const price = req.query.price;
     let condition = category ? { category: { [Op.like]: `%${category}%` } } : null;
 
-    Product.findAll({ where: condition })
-        .then(data => {
-            //sort by price ascending or descending
+    const products = await Product.findAll({ where: condition })
+    //sort by price ascending or descending
+        try{
             if (price == 'asc') {
                 data.sort((a, b) => a.price - b.price);
             } else if (price == 'desc') {
                 data.sort((a, b) => b.price - a.price);
             }
-            res.send(data);
-        })
-        .catch(err => {
+            res.send(products);
+            
+        } catch (err) {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving products."
+                message:
+                err.message || "Some error occurred while retrieving products."
             });
-        });
+        }
 }
 
 // Get a single Product with an id

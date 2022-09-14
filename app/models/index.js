@@ -46,9 +46,14 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId"
 });
 
-db.usercart.belongsTo(db.user, {
-  foreignKey: "userid",
-  as: "user"
+// db.usercart.belongsTo(db.user, {
+//   foreignKey: "userid",
+//   as: "user"
+// });
+
+db.usercart.belongsTo(db.product, {
+  foreignKey: "productid",
+  as: "product"
 });
 
 db.user.hasMany(db.order, { as: "orders" });

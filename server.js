@@ -54,7 +54,7 @@ app.get("/", (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
-app.use('/api/usercart', userCartRoutes);
+app.use('/api/cart', userCartRoutes);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
