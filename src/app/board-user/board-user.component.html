@@ -1,5 +1,5 @@
 
-<div >
+<div class="col-5" >
   <mat-radio-group class="category-column" [(ngModel)] = "selectedCategory" (change) = "categoryChange($event.value)">
     <mat-radio-button class="radio-button" *ngFor="let category of categories" [value]="category">
       {{category}}
@@ -8,7 +8,7 @@
 </div>
 
 
-<div class="content">
+<!-- <div class="content">
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let content of contents" >
       <mat-card class="mat-elevation-z4">
@@ -47,5 +47,48 @@
 
       </mat-card>
     </div>
+  </div>
+</div> -->
+
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let content of contents" class="mb-2">
+      <mat-card class="mat-elevation-z0">
+        <img mat-card-image src = {{content.image}} alt = {{content.title}} >
+      </mat-card>
+
+      <div class="row justify-content-between">
+        <div class = "col justify-content-start">
+          <h4 class="mt-2 mb-2">
+            {{content.name}}
+          </h4>
+
+          <!-- <p class="small text-muted mb-2">Description : {{content.description}}</p> -->
+
+          <p class="small text-muted mb-2">Category: {{content.category}}</p>
+
+          <p class="small text-muted mb-2">Size : {{content.size}}</p>
+          
+          <div class="row justify-content-start col-md-12 mb-4 mb-lg-0">
+            <p class="small text-muted">Color : </p> 
+            <p class="small px-1">
+                <fa-icon [icon] = "faCircle" style="color: {{content.color}}"></fa-icon> 
+                {{content.color}}
+            </p>
+          </div>
+        </div>
+
+        <div class = "col-5 justify-content-end">
+          <h3 class="col justify-content-end mt-2 mb-2">
+            <strong>
+              Rs.{{content.price}}
+            </strong>
+          </h3>
+
+          <button class="col justify-content-end mt-2 mb-2" mat-raised-button color="primary" (click)="addToCart(content)" >Add</button>
+        
+        </div>
+
+      </div>
   </div>
 </div>

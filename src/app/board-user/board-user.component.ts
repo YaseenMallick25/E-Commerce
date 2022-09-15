@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../_services/product.service';
 import { UserCartService } from '../_services/userCart.service';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface Product {
   id: number,
@@ -26,6 +28,7 @@ interface Quantity {
   styleUrls: ['./board-user.component.css']
 })
 export class BoardUserComponent implements OnInit {
+  faCircle = faCircle;
   contents: any = [];
   //products: Product[] = [];
   

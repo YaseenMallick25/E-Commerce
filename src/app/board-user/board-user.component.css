@@ -16,3 +16,20 @@
 .radio-button {
   margin: 5px;
 }
+
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+.mat-card {
+  background-color: rgb(227, 252, 255);
+}
+
+.drop-down-list {
+  margin-right: 16px;
+}
+
+.form-group {
+  margin-top: 16px;
+}

@@ -50,9 +50,8 @@ export class LoginComponent implements OnInit {
 
     });
 
-    console.log(this.roles);
-
-    this.router.navigateByUrl('/user');
+    this.router.navigate(['/']);
+  
 
   }
 
