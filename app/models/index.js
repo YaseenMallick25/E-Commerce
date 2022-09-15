@@ -58,6 +58,6 @@ db.usercart.belongsTo(db.product, {
 
 db.user.hasMany(db.order, { as: "orders" });
 
-db.ROLES = ["user", "admin"];
+db.ROLES = ["user", "admin",];
 
 module.exports = db;

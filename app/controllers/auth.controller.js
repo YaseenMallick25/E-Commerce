@@ -26,35 +26,65 @@ exports.signup = async (req, res) => {
             });
             await user.setRoles(roles);
         } else {
-            // user role = 1
-            const userRole = await Role.findOne({ where: { name: "user" } });
-            await user.setRoles(userRole);
-    }
-    
-    let authorities = [];
-    const roles = await user.getRoles();
-    
-    for (const element of roles) {
-        authorities.push("ROLE_" + element.name.toUpperCase());
-    }
+            // user role = 1 ie user
+            await user.setRoles([1]);
+        }
 
-    const token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400 // 24 hours
-    });
+        let authorities = [];
+        const roles = await user.getRoles();
 
-    res.status(200).send({
-        user: {
+        for (const element of roles) {
+            authorities.push("ROLE_" + element.name.toUpperCase());
+        }
+
+        const token = jwt.sign({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            roles: authorities
+        }, config.secret, {
+            expiresIn: 86400 // 24 hours
+        });
+
+        res.status(200).send({
             id: user.id,
             username: user.username,
             email: user.email,
             roles: authorities,
             accessToken: token
-        }
-    });
+        });
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        res.status(500).send({
+            message: err.message
+        });
     }
-};
+}
+    // .then(user => {
+    //     console.log("Console");
+    //     console.log(req.body.roles);
+    //     if (req.body.roles) {
+    //         Role.findAll({
+    //             where: {
+    //                 name: {
+    //                     [Op.or]: req.body.roles
+    //                 }
+    //             }
+    //     }).then(roles => {
+    //         user.setRoles(roles).then(() => {
+    //             res.send({ message: "User was registered successfully!" });
+    //         });
+    //     });
+    //     } else {
+    //         // user role = 1
+    //         user.setRoles([1]).then(() => {
+    //             res.send({ message: "User was registered successfully!" });
+    //         });
+    //     }
+    // })
+    // .catch(err => {
+    //     res.status(500).send({ message: err.message });
+    // });
+// }
 
 exports.signin = async (req, res) => {
     const user = await User.findOne({
@@ -64,7 +94,9 @@ exports.signin = async (req, res) => {
     })
     try {
         if (!user) {
-            return res.status(404).send({ message: "User Not found." });
+            return res.status(404).send({
+                message: "User Not found."
+            });
         }
 
         const passwordIsValid = bcrypt.compareSync(
@@ -79,27 +111,74 @@ exports.signin = async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ id: user.id }, config.secret, {
-            expiresIn: 86400 // 24 hours
-        });
-
         let authorities = [];
         const roles = await user.getRoles();
-        
+
         for (const element of roles) {
             authorities.push("ROLE_" + element.name.toUpperCase());
         }
 
-        res.status(200).send({
-            user: {
-                id: user.id,
-                username: user.username,
-                email: user.email,
-                roles: authorities,
-                accessToken: token
-            }
+        const token = jwt.sign({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            roles: authorities
+        }, config.secret, {
+            expiresIn: 86400 // 24 hours
         });
+
+        res.status(200).send({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            roles: authorities,
+            accessToken: token
+        });
+
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        res.status(500).send({
+            message: err.message
+        });
     }
-};
+}
+//     .then(user => {
+//         if (!user) {
+//             return res.status(404).send({ message: "User Not found." });
+//         }
+
+//         let passwordIsValid = bcrypt.compareSync(
+//             req.body.password,
+//             user.password
+//         );
+            
+//         if (!passwordIsValid) {
+//             return res.status(401).send({
+//                 accessToken: null,
+//                 message: "Invalid Password!"
+//             });
+//         }
+         
+//         let authorities = [];
+
+//         user.getRoles().then(roles => {
+//             for (let i = 0; i < roles.length; i++) {
+//                 authorities.push("ROLE_" + roles[i].name.toUpperCase());
+//             }
+
+//             let token = jwt.sign({ id: user.id, roles: authorities }, config.secret, {
+//                 expiresIn: 86400 // 24 hours
+//             });
+
+//             res.status(200).send({
+//                 id: user.id,
+//                 username: user.username,
+//                 email: user.email,
+//                 roles: authorities,
+//                 accessToken: token
+//             });
+//         });
+//     })
+//     .catch(err => {
+//         res.status(500).send({ message: err.message });
+//     });
+// }
