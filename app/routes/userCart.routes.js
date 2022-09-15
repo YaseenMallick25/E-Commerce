@@ -2,7 +2,7 @@
 const { authJwt } = require("../middleware");
 const userCart = require("../controllers/userCart.controller.js");
 
-var router = require("express").Router();
+let router = require("express").Router();
 
 // Create a new UserCart
 router.post(

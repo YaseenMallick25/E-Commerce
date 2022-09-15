@@ -1,11 +1,12 @@
 //product controller
 
+const { order } = require("../models");
 const db = require("../models");
 const Product = db.product;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Product
-exports.createProduct = (req, res) => {
+exports.createProduct = async (req, res) => {
     // Validate request
     if (!req.body.name) {
         res.status(400).send({
@@ -15,7 +16,7 @@ exports.createProduct = (req, res) => {
     }
     
     // Create a Product
-    const product = {
+    const productModel = {
         name: req.body.name,
         description: req.body.description,
         category: req.body.category,
@@ -26,40 +27,33 @@ exports.createProduct = (req, res) => {
     };
     
     // Save Product in the database
-    Product.create(product)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                err.message || "Some error occurred while creating the Product."
-            });
+    const product = await Product.create(productModel)
+    try {
+        res.send(product);
+    }
+    catch (err) {
+        res.status(500).send({
+            message: err.message || "Some error occurred while creating the Product."
         });
-
+    }
 };
 
 // Get all Products from the database.
 
-exports.getAllProducts = (req, res) => {
+exports.getAllProducts = async (req, res) => {
     const price = req.query.price;
     
-    Product.findAll()
-        .then(data => {
-            //sort by price ascending or descending
-            if (price == 'asc') {
-                data.sort((a, b) => a.price - b.price);
-            } else if (price == 'desc') {
-                data.sort((a, b) => b.price - a.price);
-            }
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                err.message || "Some error occurred while retrieving products."
-            });
+    const product = await Product.findAll(
+        order[price]
+    )
+    try {
+        res.send(product);
+    }
+    catch (err) {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving products."
         });
+    }
 }
 
 // get all products by category
@@ -84,86 +78,76 @@ exports.getAllProductsByCategory = async (req, res) => {
                 err.message || "Some error occurred while retrieving products."
             });
         }
-}
+};
 
 // Get a single Product with an id
-exports.getProductById = (req, res) => {
+exports.getProductById = async (req, res) => {
     const id = req.params.id;
     
-    Product.findByPk(id)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error retrieving Product with id=" + id
-            });
+    const product = Product.findByPk(id)
+    try {
+        res.send(product);
+    }
+    catch (err) {
+        res.status(500).send({
+            message: "Error retrieving Product with id=" + id
         });
-}
+    }
+};
 
 // Update a Product by the id in the request
-exports.updateProductById = (req, res) => {
+exports.updateProductById = async (req, res) => {
     const id = req.params.id;
     
-    Product.update(req.body, {
+    const product = await Product.update(req.body, {
         where: { id: id }
     })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Product was updated successfully."
-                });
-            } else {
-                res.send({
-                    message: `Cannot update Product with id=${id}. Maybe Product was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating Product with id=" + id
-            });
+    try {
+        res.send({
+            message: "Product was updated successfully."
         });
+    }
+    catch (err) {
+        res.status(500).send({
+            message: "Error updating Product with id=" + id
+        });
+    }
 }
 
 // Delete a Product with the specified id in the request
-exports.deleteProductById = (req, res) => {
+exports.deleteProductById = async (req, res) => {
     const id = req.params.id;
     
-    Product.destroy({
+    const product = await Product.destroy({
         where: { id: id }
     })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Product was deleted successfully!"
-                });
-            } else {
-                res.send({
-                    message: `Cannot delete Product with id=${id}. Maybe Product was not found!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Could not delete Product with id=" + id
-            });
+    try {
+        res.send({
+            message: "Product was deleted successfully!"
         });
+    }
+    catch (err) {
+        res.status(500).send({
+            message: "Could not delete Product with id=" + id
+        });
+    }
 }
 
 // Delete all Products from the database.
-exports.deleteAllProducts = (req, res) => {
-    Product.destroy({
+exports.deleteAllProducts = async (req, res) => {
+    const product = await Product.destroy({
         where: {},
         truncate: false
     })
-        .then(nums => {
-            res.send({ message: `${nums} Products were deleted successfully!` });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                err.message || "Some error occurred while removing all products."
-            });
+    try {
+        res.send({
+            message: `${product} Products were deleted successfully!`
         });
+    }
+    catch (err) {
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while removing all products."
+        });
+    }
 }

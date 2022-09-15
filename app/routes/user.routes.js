@@ -16,12 +16,6 @@ router.get(
 );
 
 router.get(
-    "/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
-);
-
-router.get(
     "/admin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
